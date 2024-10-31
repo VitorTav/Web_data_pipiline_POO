@@ -1,0 +1,31 @@
+CREATE TABLE QLP_EQUIPE_INSUMOS
+(
+    ID INT(10) NOT NULL AUTO_INCREMENT,
+    Vigencia VARCHAR(250) NULL,
+    Unidade_CNJP VARCHAR(250) NULL,
+    Unidade_Nome VARCHAR(250) NULL,
+    Unidade_SAP VARCHAR(250) NULL,
+    Unidade_TMS VARCHAR(250) NULL,
+    Unidade_Promax_UNB VARCHAR(250) NULL,
+    Unidade_Regional VARCHAR(250) NULL,
+    Operador_CNPJ VARCHAR(250) NULL,
+    Operador_Nome VARCHAR(250) NULL,
+    Operador_SAP VARCHAR(250) NULL,
+    Operador_TMS VARCHAR(250) NULL,
+    Operador_Promax VARCHAR(250) NULL,
+    Organizacao_de_Compras VARCHAR(250) NULL,
+    Prazo_Pagamento VARCHAR(250) NULL,
+    cargoQlpEmpurrada VARCHAR(250) NULL,
+    valor0 VARCHAR(250) NULL,
+    valor15 VARCHAR(250) NULL,
+    valor30 VARCHAR(250) NULL,
+    valor50 VARCHAR(250) NULL,
+    valor60 VARCHAR(250) NULL,
+    valor70 VARCHAR(250) NULL,
+    valor80 VARCHAR(250) NULL,
+    _id VARCHAR(250) NULL,
+    PRIMARY KEY (`ID`)
+) ENGINE = InnoDB;
+ALTER TABLE `QLP_EQUIPE_INSUMOS` ADD UNIQUE `UNI_ID` (`Unidade_Nome`, `_id`);
+ALTER TABLE `QLP_EQUIPE_INSUMOS` ADD INDEX( `Unidade_Nome`);
+ALTER TABLE `QLP_EQUIPE_INSUMOS` ADD INDEX( `_id`);

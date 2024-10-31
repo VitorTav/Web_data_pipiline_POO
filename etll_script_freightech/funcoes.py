@@ -1,5 +1,5 @@
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -26,7 +26,7 @@ from email.mime.multipart import MIMEMultipart
 from time import sleep
 from datetime import datetime, timedelta
 from selenium.webdriver.support.ui import Select
-from pynput.keyboard import Key, Controller
+# from pynput.keyboard import Key, Controller
 import re
 from shareplum import Site
 from shareplum.site import Version
@@ -236,7 +236,7 @@ class Navegador:
 
     def fechar_primeira_janela(self):
         try:
-            # Verifica se há janelas abertas
+            # Verifica se há janelas abertas 
             if len(self.navegador.window_handles) > 0:
                 # Muda para a primeira janela
                 self.navegador.switch_to.window(self.navegador.window_handles[0])
@@ -309,7 +309,7 @@ class Navegador:
                     novo_nome = f"{data}.xlsx"
                     novo_caminho = os.path.join(destino, novo_nome)
                     shutil.move(caminho_arquivo, novo_caminho)
-                    print(f"Arquivo movido: {caminho_arquivo} -> {novo_caminho}")
+                    return f"{novo_caminho}"
                 else:
                     print(f"Data não encontrada no nome do arquivo: {arquivo}")
 
@@ -328,10 +328,10 @@ class Navegador:
      
      
      
-        
 class Validacao:  
     def __init__(self,caminho):
         self.caminho = caminho
+        # self.conectar_banco()
         
 
 
@@ -500,8 +500,22 @@ class Validacao:
 
 
     def registrar_erro(self, mensagem):
-        # Método para registrar erros (implemente conforme necessário)
+        # Método para registrar erros (implemente conforme necessário) 
         print(mensagem)        
         
         
+    def conectar_banco(self, host_name, user_name, user_password,database):
+        try:
+            self.connection = mysql.connector.connect(
+                host=host_name,
+                user=user_name,
+                password=user_password,
+                database=database
+            )
+            print("Conexão ao banco de dados MySQL realizada com sucesso")
+        except mysql.connector.Error as err:
+            print(f"Erro ao conectar ao banco de dados: '{err}'")
+        return self.connection
+      
+      
     

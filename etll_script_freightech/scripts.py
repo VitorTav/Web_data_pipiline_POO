@@ -3,6 +3,7 @@ import getpass
 import time
 from funcoes import Validacao
 from selenium.webdriver.common.by import By
+import pandas as pd
 
 
 xpath_email_login = "/html/body/app-root/ft-core-login/div/div/div/wac-input/div/div/input"
@@ -58,11 +59,13 @@ xpath_pesquisa = "(//label[text()=' Funcionalidades ']/following::input)[2]"
 
 '-------------------------------------------------------------------------------------------------------------------------------'
 
-user = '###'
-key = '##'
-armazem = "###"
-
-
+user = 'igor.silva@grupohorizonte.com.br'
+key = 'Igor@1407'
+armazem = "Armazem"
+host_name = "172.16.0.28" 
+user_name = "joaotavares" 
+user_password = "@joaotavares"
+database='dbfreightech'
 
 
 
@@ -205,7 +208,7 @@ navegador.click(xpath_exportar_tabela_Rota)
 time.sleep(60)
 # navegador.change_tab_with_interactions(url_freigtech)
 # time.sleep(35)
-navegador.mover_arquivo('rota')
+nome_rota = navegador.mover_arquivo('rota')
 time.sleep(15)
 # resultado = validacao.verificar_integridade_xlsx("C:\\Freightech\\load\\ROTA")
 # print(f"A integridade do CSV é: {resultado}")
@@ -319,7 +322,7 @@ navegador.click(xpath_exorportar_tabela_Empurrada)
 time.sleep(60)
 # navegador.change_tab_with_interactions(url_freigtech)
 # time.sleep(35)
-navegador.mover_arquivo('as')
+nome_as = navegador.mover_arquivo('as')
 # resultado = validacao.verificar_integridade_xlsx("C:\\Freightech\\load\\AS")
 # print(f"A integridade do CSV é: {resultado}")
 time.sleep(40)
@@ -430,7 +433,7 @@ navegador.click(xpath_exorportar_tabela_Empurrada)
 time.sleep(60)
 # navegador.change_tab_with_interactions(url_freigtech)
 # time.sleep(35)
-navegador.mover_arquivo('empurrada')
+nome_empurrada = navegador.mover_arquivo('empurrada')
 
 # resultado = validacao.verificar_integridade_xlsx("C:\\Freightech\\load\\EMPURRADA")
 # print(f"A integridade do CSV é: {resultado}")
@@ -545,7 +548,7 @@ navegador.click(xpath_exportar_tabela_Armazem)
 time.sleep(60)
 # navegador.change_tab_with_interactions(url_freigtech)
 # time.sleep(35)
-navegador.mover_arquivo('armazem')
+nome_armazem = navegador.mover_arquivo('armazem')
 time.sleep(1)
 # resultado = validacao.verificar_integridade_xlsx("C:\\Freightech\\load\\ARMAZEM")
 # print(f"A integridade do CSV é: {resultado}")
@@ -657,11 +660,56 @@ navegador.click(xpath_exportar_tabela_AS)
 time.sleep(60)
 # navegador.change_tab_with_interactions(url_freigtech)
 # time.sleep(35)
-navegador.mover_arquivo('insumos')
+nome_insumos = navegador.mover_arquivo('insumos')
 
 # resultado = validacao.verificar_integridade_xlsx("C:\\Freightech\\load\\INSUMOS")
 # print(f"A integridade do CSV é: {resultado}")
 time.sleep(40)
+
+conexao = validacao.conectar_banco(host_name,user_name,user_password,database)
+
+nomes_arquivo = [nome_rota,nome_as,nome_empurrada,nome_armazem,nome_insumos]
+for nome_arquivo in nomes_arquivo:
+    #nome_arquivo = 'C:\\Users\\admin.joao\\Documents\\ARMAZEM\\ARMAZÉM_2024-09-30_10-31-09.xlsx'
+    arquivo_excel = pd.ExcelFile(nome_arquivo)
+    nomes_abas = arquivo_excel.sheet_names
+
+    for nome_aba in nomes_abas:
+        arquivo = pd.read_excel(nome_arquivo, sheet_name=nome_aba)
+        colunas = arquivo.columns.tolist()
+        todosValores = "";
+        for index, linha in arquivo.iterrows():
+            if index == 0: # se for a primeira linha
+                tabela = 'Armazem'
+                indices = [coluna.strip() for coluna in colunas if coluna.strip()]
+                indices = ','.join(['"'+indice+'"' for indice in indices])
+                #print(indices)
+            else:
+                valores = linha.tolist()
+                valores_string = ','.join(['"'+str(valor)+'"' for valor in valores])  # Converte cada valor para string, coloca entre aspas e junta com ","
+                valores_string = "(" + valores_string + "),"
+                todosValores = todosValores+ valores_string
+
+        todosValores = todosValores.rstrip(',')
+        sql = "insert into "+nome_aba+"("+indices+") values " 
+        sql = sql+todosValores
+
+
+try:
+    cursor = conexao.cursor()
+    cursor.execute(sql)
+except Exception as e:
+    print(f"Erro ao executar insert: {e}")
+
+
+        
+
+
+    
+
+        # with open('C:\\Users\\admin.joao\\Documents\\ARMAZEM\\sql_query_' + nome_aba + '.txt', 'w') as arquivo_sql:
+        #     arquivo_sql.write(sql)
+
 
 
 

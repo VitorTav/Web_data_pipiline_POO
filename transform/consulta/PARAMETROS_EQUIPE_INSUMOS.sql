@@ -1,0 +1,40 @@
+CREATE TABLE parametros_equipe_empurrada
+(
+    ID INT(10) NOT NULL AUTO_INCREMENT,
+    Vigencia VARCHAR(250) NULL,
+    Unidade_CNPJ VARCHAR(250) NULL,
+    Unidade_Nome VARCHAR(250) NULL,
+    Unidade_SAP VARCHAR(250) NULL,
+    Unidade_TMS VARCHAR(250) NULL,
+    Unidade_Promax_UNB VARCHAR(250) NULL,
+    Unidade_Regional VARCHAR(250) NULL,
+    Operador_CNPJ VARCHAR(250) NULL,
+    Operador_Nome VARCHAR(250) NULL,
+    Operador_SAP VARCHAR(250) NULL,
+    Operador_TMS VARCHAR(250) NULL,
+    Operador_Promax VARCHAR(250) NULL,
+    Organizacao_de_Compras VARCHAR(250) NULL,
+    Prazo_Pagamento VARCHAR(250) NULL,
+    Percentual_Acordo_Coletivo1 VARCHAR(250) NULL,
+    Percentual_Acordo_Coletivo2 VARCHAR(250) NULL,
+    Percentual_TO_Remuneracao_Feristas VARCHAR(250) NULL,
+    Piso_Salarial_Anterior1 VARCHAR(250) NULL,
+    Piso_Salarial_Anterior2 VARCHAR(250) NULL,
+    Ajustado VARCHAR(250) NULL,
+    Data_Alteracao_Motorista25 VARCHAR(250) NULL,
+    Data_Alteracao_Motorista28 VARCHAR(250) NULL,
+    Data_Alteracao_Motorista40 VARCHAR(250) NULL,
+    Data_Base VARCHAR(250) NULL,
+    Encargo_Provisao_Com_Ferias VARCHAR(250) NULL,
+    Encargo_Provisao_Sem_Ferias VARCHAR(250) NULL,
+    Fator_Motorista_Produtividade VARCHAR(250) NULL,
+    Fator_Motorista_Real VARCHAR(250) NULL,
+    Percentual_Acordo_Coletivo_Motorista25 VARCHAR(250) NULL,
+    Piso_Salarial_Anterior_Motorista25 VARCHAR(250) NULL,
+    Premio_Produtividade VARCHAR(250) NULL,
+    _ID VARCHAR(250) NULL,
+    PRIMARY KEY (`ID`)
+) ENGINE = InnoDB;
+ALTER TABLE `parametros_equipe_empurrada` ADD UNIQUE `UNI_ID` (`Unidade_Nome`, `_ID`);
+ALTER TABLE `parametros_equipe_empurrada` ADD INDEX( `Unidade_Nome`);
+ALTER TABLE `parametros_equipe_empurrada` ADD INDEX( `_ID`);
